@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 18:30:54 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/08 14:01:05 by diade-so         ###   ########.fr       */
+/*   Created: 2025/08/08 12:51:59 by diade-so          #+#    #+#             */
+/*   Updated: 2025/08/08 14:05:01 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int ac, char **av)
+/**
+ * @brief Writes an error message to stderr and returns a code.
+ *
+ * @param[in] msg Error message string to print.
+ * @param[in] ret Return code to return.
+ *
+ * @return Returns the given return code.
+ */
+int	error_return(const char *msg, int ret)
 {
-	t_args	args;
-
-	if (parse_init_args(ac, av, &args) == 1)
-		return (1);
-	if (validate_args(&args) == 1)
-		return (1);
-	printf("number of philos: %d\n", args.philos);
-	printf("time_til_death in ms: %zu\n", args.time_til_death);
-	printf("eat_time in ms: %zu\n", args.eat_time);
-	printf("sleep_time in ms: %zu\n", args.sleep_time);
-	if (ac == 6)
-		printf("meal_goal: %d\n", args.meal_goal);
-	return (0);
+	write(2, msg, ft_strlen(msg));
+	return (ret);
 }
-

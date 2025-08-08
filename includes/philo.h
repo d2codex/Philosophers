@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/08 12:05:34 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:46:09 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include <stddef.h>
 # include <pthread.h>
+# include <stdio.h>
 
 /**
  * @enum t_state
@@ -51,6 +52,9 @@ typedef	enum	e_state
  * @var s_args::meal_goal
  * Number of meals before simulation ends.
  * Stored as int to allow -1 as "no goal" and easy decrementing.
+ * Initialized to -1 to indicate "no meal goal" specified by user.
+ * This sentinel clearly distinguishes between no input (-1) and
+ * explicit zero or positive values.
  */
 typedef struct	s_args
 {
@@ -96,5 +100,9 @@ typedef struct	s_philo
 
 // prototypes for parse.c
 int     parse_init_args(int ac, char **av, t_args *args);
+int     validate_args(t_args *args);
+
+// prototypes for error.c
+int     error_return(const char *msg, int ret);
 
 #endif
