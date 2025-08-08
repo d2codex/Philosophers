@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/08 14:46:13 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:51:16 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stddef.h>
 # include <pthread.h>
 # include <stdio.h>
+# include <errno.h>
 
 /**
  * @enum t_state
@@ -105,5 +106,8 @@ int     validate_args(t_args *args);
 // prototypes for error.c
 int     error_return(const char *msg);
 void    print_usage();
+
+// prototpyes for init.c
+int     init_chopsticks(pthread_mutex_t **cs, int num_philos);
 
 #endif

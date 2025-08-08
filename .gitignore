@@ -17,6 +17,7 @@ docs/
 
 # Ignore compiled executables
 a.out
+philo
 
 # Ignore Doxygen config file
 Doxyfile

@@ -6,7 +6,7 @@
 #    By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/07 19:33:55 by diade-so          #+#    #+#              #
-#    Updated: 2025/08/08 13:37:08 by diade-so         ###   ########.fr        #
+#    Updated: 2025/08/08 15:35:11 by diade-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ BONUS_DIR = bonus
 #                                Source Files                                  #
 # **************************************************************************** #
 
-SRC = $(addprefix $(SRC_DIR)/, main.c parse.c errors.c)
+SRC = $(addprefix $(SRC_DIR)/, main.c parse.c errors.c init.c)
 
 SHARED = parse.c errors.c
 
