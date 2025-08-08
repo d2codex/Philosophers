@@ -3,6 +3,7 @@
 *.swo
 
 # Ignore libft and minilibx-linux
+libft
 libft/
 minilibx-linux/
 docs/
