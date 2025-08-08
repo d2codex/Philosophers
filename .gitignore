@@ -1,0 +1,21 @@
+# Ignore Vim/NeoVim swap files
+*.swp
+*.swo
+
+# Ignore libft and minilibx-linux
+libft/
+minilibx-linux/
+docs/
+
+# Ignore object files
+*.o
+*.a
+*.out
+*.so
+*.exe
+
+# Ignore compiled executables
+a.out
+
+# Ignore Doxygen config file
+Doxyfile
