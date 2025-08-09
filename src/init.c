@@ -6,11 +6,12 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:34:23 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/08 17:01:04 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/09 21:28:20 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdlib.h>
 
 /**
  * @brief Initializes an array of mutexes representing chopsticks (cs).

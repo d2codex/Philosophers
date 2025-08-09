@@ -6,18 +6,16 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/08 16:51:16 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/09 21:12:00 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include "libft.h"
+# include "char_utils.h"
 # include <stddef.h>
 # include <pthread.h>
-# include <stdio.h>
-# include <errno.h>
 
 /**
  * @enum t_state
@@ -109,5 +107,9 @@ void    print_usage();
 
 // prototpyes for init.c
 int     init_chopsticks(pthread_mutex_t **cs, int num_philos);
+
+// prototypes for num_utils.c
+int     ft_safe_atoi(const char *str, int *out);
+int     ft_atosize(const char *str, size_t *out);
 
 #endif
