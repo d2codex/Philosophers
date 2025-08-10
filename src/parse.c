@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:53:14 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/08 15:05:08 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:49:47 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
  * @note Time values use size_t for non-negativity;
  * philos and meal_goal use int for easy looping and sentinel values,
  * but reject negative values from user input.
+ * Initializes meal_goal to -1 if ac == 5.
  *
  * @warning Does not perfrom logical validation on the values.
  *
@@ -54,9 +55,7 @@ int	parse_init_args(int ac, char **av, t_args *args)
 	if (ac == 6)
 	{
 		if (!ft_safe_atoi(av[5], &args->meal_goal))
-			error_found |= error_return("Invalaid meal_goal input\n");
-		if (args->meal_goal == -1)
-			error_found |= error_return("Meal goal must be >= 0\n");
+			error_found |= error_return("Invalid meal_goal input\n");
 	}
 	else
 		args->meal_goal = -1;
@@ -76,7 +75,7 @@ int	parse_init_args(int ac, char **av, t_args *args)
  *
  * @return 0 if all values are valid, 1 if any validation errors occurred.
  */
-int	validate_args(t_args *args)
+int	validate_args(int ac, t_args *args)
 {
 	int	error_found;
 
@@ -89,7 +88,7 @@ int	validate_args(t_args *args)
 		error_found |= error_return("Eat duration must be > 0\n");
 	if (args->sleep_time == 0)
 		error_found |= error_return("Sleep duration must be > 0\n");
-	if (args->meal_goal != -1 && args->meal_goal < 0)
+	if (ac == 6 && args->meal_goal < 0)
 		error_found |= error_return("Meal goal must be >= 0\n");
 	return (error_found);
 }

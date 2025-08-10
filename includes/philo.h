@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/09 21:12:00 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:37:39 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct	s_philo
 
 // prototypes for parse.c
 int     parse_init_args(int ac, char **av, t_args *args);
-int     validate_args(t_args *args);
+int     validate_args(int ac, t_args *args);
 
 // prototypes for error.c
 int     error_return(const char *msg);
