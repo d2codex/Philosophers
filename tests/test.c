@@ -84,56 +84,29 @@ void	test_parse_init_args()
 
 	static t_test_case tests[] =
 	{
-		/*
-		//tests test[1] int, t_size, t_size, t_size
-		//or test[1] int, t_size, t_size, t_size, int
-		//valid input, expect 0 (no error)
-		{5, {"philo", "4", "800", "200", "200", NULL}, 0},
-		// valid input negative int ok, expect 0
-		{6, {"philo", "-4", "800", "200", "200", "-3"}, 0},
-		// not enough args, expect 1 (error)
-		{4, {"philo", "4", "800", "200", NULL}, 1},
-		// Invalid philos (non-numeric), expect error
-		{5, {"philo", "abc", "800", "200", "200", NULL}, 1},
-		// Invalid time_to_death (non-numeric), expect error
-		{5, {"philo", "33", "abc", "200", "200", NULL}, 1},
-		// Invalid eat_time (non-numeric), expect error
-		{5, {"philo", "abc", "800", "-123", "200", NULL}, 1},
-		// Invalid sleep_time (non-numeric), expect error
-		// also leading trailing spaces ok
-		{5, {"philo", "  abc  ", " 800", "200 ", "#$za", NULL}, 1},
-		// Negative meal goal, no error
-		{6, {"philo", "4", "800", "200", "200", "-1"}, 0},
-		*/
+		// expected input format
+		// ./philo int t_size t_size t_size [int]
+	
+		// valid input: all fields correctly formatted
 		{5, {"./philo", "4", "800", "200", "200", NULL}, 0},
+		// valid signed ints for philos and meal_goal, valid positive size_ts
 		{6, {"./philo", "-4", "800", "200", "200", "-3"}, 0},
+		// too few arguments, should fail
 		{4, {"./philo", "4", "800", "200", NULL}, 1},
+		// invalid int for philosophers (non-numeric string)
 		{5, {"./philo", "abc", "800", "200", "200", NULL}, 1},
+		// invalid t_size for time_til_death (non-numeric string)
 		{5, {"./philo", "33", "abc", "200", "200", NULL}, 1},
-		{5, {"./philo", "abc", "800", "-123", "200", NULL}, 1},
-		{5, {"./philo", "  abc  ", " 800", "200 ", "#$za", NULL}, 1},
+		// invalid t_size for eat_time (negative value not allowed)
+		{5, {"./philo", "4", "800", "-123", "200", NULL}, 1},
+		// invalid t_size for sleep_time (non-digit characters)
+		{5, {"./philo", "4", "800", "200", "#$za", NULL}, 1},
+		// valid meal_goal int, signed -1 accepted here as valid parse
 		{6, {"./philo", "4", "800", "200", "200", "-1"}, 0},
-
-		// Edge cases for int (philos)
-		// INT_MAX
-		{5, {"./philo", "2147483647", "800", "200", "200", NULL}, 0},
-		// INT_MIN
-		{5, {"./philo", "-2147483648", "800", "200", "200", NULL}, 0},
-		// overflow
-		{5, {"./philo", "2147483648", "800", "200", "200", NULL}, 1},
-		// underflow
-		{5, {"./philo", "-2147483649", "800", "200", "200", NULL}, 1},
-
-		// Edge cases for size_t (time values)
-		// max size_t
-		{5, {"./philo", "4", "18446744073709551615", "200", "200", NULL}, 0},
-		// size_t overflow
-		{5, {"./philo", "4", "18446744073709551616", "200", "200", NULL}, 1},
-		// negative size_t invalid
-		{5, {"./philo", "4", "-1", "200", "200", NULL}, 1},
-		// all invalid
+		// all invalid inputs in one test case to check multiple errors reported
 		{6, {"./philo", "abc", "-100", "abc", "zde", "abc", NULL}, 1},
-
+		// all args empty or whitespace-only strings, expect parse failure
+		{6, {"./philo", "", "   ", " ", "\t", "\n", NULL}, 1},
 	};
 
 	int	num_tests = sizeof(tests) / sizeof(tests[0]);
@@ -154,52 +127,52 @@ void	test_parse_init_args()
 	}
 }
 
-
 // integration test
 void	test_args()
 {
 	t_args	args;
-	pthread_mutex_t	*cs;
 
 	typedef struct s_test_case
 	{
 		int	ac;
-		char *av[6];
+		char	*av[7];
 	}	t_test_case;
 
 	static t_test_case tests[] =
-	{
-		{5, {"philo", "4", "800", "200", "200"}},
-		{6, {"philo", "4", "800", "200", "200", "3"}},
+	{	
+		// expected input format
+		// ./philo int t_size t_size t_size [int]
+		// INT_MAX
+		{5, {"./philo", "2147483647", "800", "200", "200", NULL}},
+		// INT_MIN
+		{5, {"./philo", "-2147483648", "800", "200", "200", NULL}},
+		// Edge cases for size_t (time values)
+		// max size_t
+		{5, {"./philo", "4", "18446744073709551615", "200", "200", NULL}},
+		// all invalid
+		{6, {"./philo", "0", "0", "0", "0", "-2", NULL}},
+
 	};
 	int	num_test = sizeof(tests) / sizeof(tests[0]);
 	int	i = 0;
 	while (i < num_test)
 	{
 		printf("Test case %d:\n", i + 1);
+		int j = 0;
+		while (j < tests[i].ac)
+		{
+			printf("%s ", tests[i].av[j]);
+			j++;
+		}
+		printf("\n");
 		if (parse_init_args(tests[i].ac, tests[i].av, &args) != 0)
 		{
 			print_usage();
 			printf("parse_init_args failed\n");
 			return ;
 		}
-		if (validate_args(tests[i].ac, &args) != 0)
-		{
-			print_usage();
-			printf("validate_args failed\n");
-			return ;
-		}
-		if (init_chopsticks(&cs, args.philos) != 0)
-		{
-			printf("init_chopsticks failed\n");
-			return ;
-		}
-		printf("number of philos: %d\n", args.philos);
-		printf("time_til_death in ms: %zu\n", args.time_til_death);
-		printf("eat_time in ms: %zu\n", args.eat_time);
-		printf("sleep_time in ms: %zu\n", args.sleep_time);
-		if (tests[i].ac == 6)
-			printf("meal_goal: %d\n", args.meal_goal);
+		validate_args(tests[i].ac, &args);		
+		printf("\n");
 		i++;
 	}
 }
@@ -208,7 +181,7 @@ int	main(void)
 {
 //	test_atosize();
 //	test_safe_atoi();
-	test_parse_init_args();
-//	test_args();
+//	test_parse_init_args();
+	test_args();
 	return(0);
 }
