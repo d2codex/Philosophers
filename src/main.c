@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:30:54 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/08 17:02:23 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/10 10:23:18 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ int	main(int ac, char **av)
 		printf("meal_goal: %d\n", args.meal_goal);
 */
 // test fork mutex 
+/*
 	int i = 0;
 	while (i < args.philos)
 	{
 		printf("chopstick[%d]: %p\n", i + 1, (void *)&cs[i]);
 		i++;
 	}
+*/
 	return (0);
 }
 

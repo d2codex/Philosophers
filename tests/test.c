@@ -69,9 +69,59 @@ void	test_safe_atoi(void)
     }
 }
 
+// integration test
+void	test_args()
+{
+	t_args	args;
+	pthread_mutex_t	*cs;
+
+	typedef struct s_test_case
+	{
+		int	ac;
+		char *av[6];
+	}	t_test_case;
+
+	static t_test_case tests[] =
+	{
+		{5, {"philo", "4", "800", "200", "200"}},
+		{6, {"philo", "4", "800", "200", "200", "3"}},
+	};
+	int	num_test = sizeof(tests) / sizeof(tests[0]);
+	int	i = 0;
+	while (i < num_test)
+	{
+		printf("Running test case %d:\n", i + 1);
+		if (parse_init_args(tests[i].ac, tests[i].av, &args) != 0)
+		{
+			print_usage();
+			printf("parse_init_args failed\n");
+			return ;
+		}
+		if (validate_args(&args) != 0)
+		{
+			print_usage();
+			printf("validate_args failed\n");
+			return ;
+		}
+		if (init_chopsticks(&cs, args.philos) != 0)
+		{
+			printf("init_chopsticks failed\n");
+			return ;
+		}
+		printf("number of philos: %d\n", args.philos);
+		printf("time_til_death in ms: %zu\n", args.time_til_death);
+		printf("eat_time in ms: %zu\n", args.eat_time);
+		printf("sleep_time in ms: %zu\n", args.sleep_time);
+		if (tests[i].ac == 6)
+			printf("meal_goal: %d\n", args.meal_goal);
+		i++;
+	}
+}
+
 int	main(void)
 {
-	test_atosize();
-	test_safe_atoi();
+//	test_atosize();
+//	test_safe_atoi();
+	test_args();
 	return(0);
 }
