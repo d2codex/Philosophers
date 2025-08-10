@@ -1,30 +1,18 @@
-# @file       Makefile
-# @brief      Makefile to build the test executable by linking test code with
-#             the philo static library (libphilo.a) built from the main project.
+# Test Makefile
 #
-# @details
-# This Makefile:
-# - Ensures the philo static library (libphilo.a) is built by invoking the main
-#   Makefile in the parent directory.
-# - Compiles the test source file (test.c) into an object file.
-# - Links the test object file with the philo static library to produce the
-#   final test executable.
+# Builds and links test executable against the philo static library.
+# - Compiles test sources into obj/ within the test directory.
+# - Calls the philo Makefile in parent directory to build libphilo.a if needed.
+# - Cleans test objects and executables in test directory.
+# - Also calls philo Makefile clean and fclean targets to clean philo objects 
+#   and libphilo.a.
 #
-# Targets:
-# - all: Builds the test executable.
-# - clean: Removes test object files.
-# - fclean: Removes test object files and the test executable.
-# - re: Rebuilds everything from scratch.
-#
-# Variables:
-# - NAME: Name of the test executable.
-# - CC: Compiler to use.
-# - CFLAGS: Compiler flags including warnings and includes.
-# - OBJ_DIR: Directory to store object files.
-# - TEST_SRC: The test source file.
-# - TEST_OBJ: The object file for the test source.
-# - LIB: Path to the philo static library.
- 
+# Usage:
+#   make        # Build tests and library if needed
+#   make clean  # Remove test objects and call philo clean
+#   make fclean # Remove test objects, executables, and call philo fclean to
+#		  remove library
+
 NAME = test
 CC = cc
 FLAGS = -Wall -Werror -Wextra -I../includes -g3
