@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:34:23 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/12 10:32:30 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/12 19:01:04 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,73 @@
 #include <stdlib.h>
 
 /**
- * @brief Initializes an array of mutexes representing chopsticks (cs).
+ * @brief Initializes an array of mutexes representing forks.
  *
  * Allocates memory for `num_philos` mutexes and initializes each one in
- * the unlocked state.
- * If allocation or initialization fails, previously initialized mutexes
- * are destroyed and memory is freed.
+ * the unlocked state. If allocation or initialization fails, previously
+ * initialized mutexes are destroyed and memory is freed.
  *
- * @param cs Pointer to the array of mutexes to allocate and initialize.
- * @param num_philos Number of mutexes (chopsticks) to create.
+ * @param forks Pointer to the array of mutexes to allocate and initialize.
+ * @param num_philos Number of mutexes (forks) to create.
  *
  * @return 0 on success, 1 on failure.
  */
-int	init_chopsticks(pthread_mutex_t **cs, int num_philos)
+int	init_forks(pthread_mutex_t **forks, int num_philos)
 {
 	int	i;
 
-	*cs = malloc(sizeof(pthread_mutex_t) * num_philos);
-	if (!*cs)
-		return (error_return("Failed to malloc for cs\n"));
+	*forks = malloc(sizeof(pthread_mutex_t) * num_philos);
+	if (!*forks)
+		return (error_return("Failed to malloc for forks\n"));
 	i = 0;
 	while (i < num_philos)
 	{
-		if(pthread_mutex_init(&(*cs)[i], NULL) != 0)
+		if(pthread_mutex_init(&(*forks)[i], NULL) != 0)
 		{
 			while (--i >=0)
-				pthread_mutex_destroy(&(*cs)[i]);
-			free(*cs);
-			*cs = NULL;
+				pthread_mutex_destroy(&(*forks)[i]);
+			free(*forks);
+			*forks = NULL;
 			return (error_return("Mutex init failed\n"));
 		}
 		i++;
 	}
 	return (0);
 }
+
+/**
+ * @brief Initializes philosopher array and assigns forks.
+ *
+ * Allocates and sets up each philosopher with an ID, shared args,
+ * pointers to their left and right forks, initial state, and timestamps.
+ *
+ * @param philos Pointer to philosopher array to allocate and initialize.
+ * @param args Shared arguments/configuration.
+ * @param forks Array of mutex forks to assign to philosophers.
+ *
+ * @return 0 on success, 1 on failure.
+ */
+int	init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks)
+{
+	int	i;
+	int	count;
+	
+	count = args->philos;
+	*philos = malloc(sizeof(t_pilo) * count);
+	if (!*philos)
+		return (error_return("Failed to malloc for philos\n"));
+	i = 0;
+	while (i < count)
+	{
+		(*philos)[i].id = i + 1;
+		(*philos)[i].args = args;
+		(*philos)[i].left_fork = &forks[i];
+		(*philos)[i].right_rork = &forks[(i + 1) % count];
+		(*philos)[i].meals_eaten = 0;
+		(*philos)[i].last_meal_start = get_time_ms();
+		(*philos)[i].state = THINKING;
+		i++;
+	}
+	return (0);
+}
+

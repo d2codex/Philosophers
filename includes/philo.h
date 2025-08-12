@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/12 13:32:29 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/12 19:01:13 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ typedef struct	s_args
  *
  * @var s_philo::id
  * Unique identifier for the philosopher.
- * @var s_philo::left_cs
- * Index of the left chopstick.
- * @var s_philo::right_cs
- * Index of the right chopstick.
+ * @var s_philo::left_fork
+ * Pointer to the mutex representing the left fork.
+ * @var s_philo::right_fork
+ * Pointer to the mutex representing the right fork.
  * @var s_philo::thread
  * Thread associated with this philosopher.
  * @var s_philo::state
@@ -90,8 +90,8 @@ typedef struct	s_args
 typedef struct	s_philo
 {
 	int		id;
-	int		left_cs;
-	int		right_cs;
+	pthread_mutex_t		*left_fork;
+	pthread_mutex_t		*right_fork;
 	pthread_t	thread;
 	t_state		state;
 	int		meals_eaten;
@@ -109,7 +109,8 @@ int     error_return(const char *msg);
 void    print_usage();
 
 // prototpyes for init.c
-int     init_chopsticks(pthread_mutex_t **cs, int num_philos);
+int     init_fork(pthread_mutex_t **cs, int num_philos);
+int     init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks);
 
 // prototypes for num_utils.c
 int     ft_safe_atoi(const char *str, int *out);

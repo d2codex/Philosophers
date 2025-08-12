@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:53:14 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/10 13:49:47 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/12 19:02:03 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@
  * @param[in] av Argument values.
  * @param[out] args Pointer to t_args to initialize.
  * 
- * @return 0 if all args parsed successfully, 1 on failure if one or more
- * errors occured.
+ * @return 0 on success, 1 on failure
  *
  * @note Time values use size_t for non-negativity;
  * philos and meal_goal use int for easy looping and sentinel values,
- * but reject negative values from user input.
+ * rejects negative values.
  * Initializes meal_goal to -1 if ac == 5.
  *
  * @warning Does not perfrom logical validation on the values.
