@@ -6,7 +6,7 @@
 #    By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/07 19:33:55 by diade-so          #+#    #+#              #
-#    Updated: 2025/08/10 10:56:50 by diade-so         ###   ########.fr        #
+#    Updated: 2025/08/12 13:31:26 by diade-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC_FILES = src/main.c \
 	    src/errors.c \
 	    src/init.c \
 	    src/num_utils.c \
-	    src/char_utils.c
+	    src/char_utils.c \
+	    src/time.c
 
 SHARED = src/parse.c \
 	 src/errors.c

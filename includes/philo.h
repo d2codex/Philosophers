@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/10 13:37:39 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/12 13:32:29 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ typedef struct	s_args
  * Current state of the philosopher (eating, sleeping, thinking).
  * @var s_philo::meals_eaten
  * Number of meals this philosopher has consumed.
- * @var s_philo::last_eat_time
+ * @var s_philo::t_last_meal_start
  * Timestamp (in milliseconds) of last meal start.
+ * @var s_philo::t_start
+ * Simulation start time.
  * @var s_philo::args
  * Pointer to shared arguments/configuration.
  */
@@ -93,7 +95,8 @@ typedef struct	s_philo
 	pthread_t	thread;
 	t_state		state;
 	int		meals_eaten;
-	long long	time_last_eaten;
+	long long	t_last_meal_start;
+	long		t_start;
 	t_args		*args;
 }	t_philo;
 
@@ -111,5 +114,9 @@ int     init_chopsticks(pthread_mutex_t **cs, int num_philos);
 // prototypes for num_utils.c
 int     ft_safe_atoi(const char *str, int *out);
 int     ft_atosize(const char *str, size_t *out);
+
+// prototypes for time.c
+long    get_time_ms(void);
+void    smart_sleep(long ms);
 
 #endif
