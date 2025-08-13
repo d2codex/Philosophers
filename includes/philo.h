@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/13 11:17:34 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:53:48 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ typedef	enum	e_state
 	EATING,
 	SLEEPING,
 	THINKING,
-	GOT_L_FORK;
-	GOT_R_FORK;
+	GOT_L_FORK,
+	GOT_R_FORK,
+	DIED,
 }	t_state;
 
 /**
@@ -64,6 +65,7 @@ typedef struct	s_args
 	size_t	eat_time;
 	size_t	sleep_time;
 	int	meal_goal;
+	int		simulation_stopped;
 	pthread_mutex_t	print_lock;
 }	t_args;
 
@@ -98,30 +100,33 @@ typedef struct	s_philo
 	pthread_t	thread;
 	t_state		state;
 	int		meals_eaten;
-	long long	t_last_meal_start;
+	long		t_last_meal_start;
 	long		t_start;
 	t_args		*args;
 }	t_philo;
 
-// prototypes for parse.c
+// parse.c
 int     parse_init_args(int ac, char **av, t_args *args);
 int     validate_args(int ac, t_args *args);
 
-// prototypes for error.c
+// error.c
 int     error_return(const char *msg);
 void    print_usage();
 
-// prototpyes for init.c
+// init.c
 int     init_forks(pthread_mutex_t **cs, int num_philos);
 int     init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks);
 
-// prototypes for num_utils.c
+// num_utils.c
 int     ft_safe_atoi(const char *str, int *out);
 int     ft_atosize(const char *str, size_t *out);
 
-// prototypes for time.c
+// time.c
 long    get_time_ms(void);
 void    smart_sleep(long ms);
 void    wait_for_start(long target_time_ms);
+
+// print.c
+void    print_display_msg(t_philo *philo, t_state action);
 
 #endif

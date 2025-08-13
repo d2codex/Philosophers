@@ -6,11 +6,12 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:53:14 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/12 19:02:03 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/13 15:05:38 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdbool.h>
 
 /**
  * @brief Parses command-line arguments into the args struct.
@@ -58,6 +59,7 @@ int	parse_init_args(int ac, char **av, t_args *args)
 	}
 	else
 		args->meal_goal = -1;
+	args->simulation_stopped = false;
 	return (error_found);
 }
 

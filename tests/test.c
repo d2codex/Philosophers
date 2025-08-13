@@ -194,7 +194,7 @@ void	test_integration()
 		// philo info after init
 		for (int p = 0; p < args.philos; p++)
 		{
-			printf("Philo %d: id=%d, meals_eaten=%d, state=%d, last_meal_time=%lld\n",
+			printf("Philo %d: id=%d, meals_eaten=%d, state=%d, last_meal_time=%ld\n",
 				p, philos[p].id, philos[p].meals_eaten, philos[p].state,
 				philos[p].t_last_meal_start);
 			// Check fork pointers validity
@@ -207,12 +207,40 @@ void	test_integration()
 		i++;
 	}
 }
+#include <stdbool.h>
+
+// test print_display_msg(t_philo *philo, t_state action)
+// test single thread only
+void	test_print_display_msg()
+{
+	t_args	args;
+	t_philo philo;
+
+	pthread_mutex_init(&args.print_lock, NULL);
+
+	philo.id = 1;
+	philo.args = &args;
+	philo.t_start = get_time_ms();
+
+	//args.simulation_stopped = false;
+	args.simulation_stopped = true;
+
+	print_display_msg(&philo, THINKING);
+	print_display_msg(&philo, GOT_L_FORK);
+	print_display_msg(&philo, EATING);
+	print_display_msg(&philo, DIED);
+	print_display_msg(&philo, SLEEPING);
+	//print_display_msg(&philo, DIED);
+
+	pthread_mutex_unlock(&args.print_lock);
+}
 
 int	main(void)
 {
 //	test_atosize();
 //	test_safe_atoi();
 //	test_parse_init_args();
-	test_integration();
+//	test_integration();
+	test_print_display_msg();
 	return(0);
 }
