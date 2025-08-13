@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/13 10:03:14 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:17:34 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef	enum	e_state
 	EATING,
 	SLEEPING,
 	THINKING,
+	GOT_L_FORK;
+	GOT_R_FORK;
 }	t_state;
 
 /**
@@ -62,6 +64,7 @@ typedef struct	s_args
 	size_t	eat_time;
 	size_t	sleep_time;
 	int	meal_goal;
+	pthread_mutex_t	print_lock;
 }	t_args;
 
 /**
