@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:34:23 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/12 19:48:55 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:01:42 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ int	init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks)
 	{
 		(*philos)[i].id = i + 1;
 		(*philos)[i].args = args;
-		(*philos)[i].left_fork = &forks[i];
-		(*philos)[i].right_fork = &forks[(i + 1) % count];
+		(*philos)[i].fork1 = &forks[i];
+		(*philos)[i].fork2 = &forks[(i + 1) % count];
 		(*philos)[i].meals_eaten = 0;
 		(*philos)[i].t_last_meal_start = 0;
 		(*philos)[i].state = THINKING;

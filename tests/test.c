@@ -198,7 +198,7 @@ void	test_integration()
 				p, philos[p].id, philos[p].meals_eaten, philos[p].state,
 				philos[p].t_last_meal_start);
 			// Check fork pointers validity
-			if (philos[p].left_fork == NULL || philos[p].right_fork == NULL)
+			if (philos[p].fork1 == NULL || philos[p].fork2 == NULL)
 				printf("Error: philosopher %d fork pointers NULL\n", p);
 		}
 		free(philos);
@@ -222,15 +222,14 @@ void	test_print_display_msg()
 	philo.args = &args;
 	philo.t_start = get_time_ms();
 
-	//args.simulation_stopped = false;
-	args.simulation_stopped = true;
+	args.simulation_stopped = false;
 
 	print_display_msg(&philo, THINKING);
-	print_display_msg(&philo, GOT_L_FORK);
+	print_display_msg(&philo, GOT_FORK1);
+	print_display_msg(&philo, GOT_FORK2);
 	print_display_msg(&philo, EATING);
 	print_display_msg(&philo, DIED);
 	print_display_msg(&philo, SLEEPING);
-	//print_display_msg(&philo, DIED);
 
 	pthread_mutex_unlock(&args.print_lock);
 }

@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/13 14:53:48 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:56:04 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef	enum	e_state
 	EATING,
 	SLEEPING,
 	THINKING,
-	GOT_L_FORK,
-	GOT_R_FORK,
+	GOT_FORK1,
+	GOT_FORK2,
 	DIED,
 }	t_state;
 
@@ -75,10 +75,10 @@ typedef struct	s_args
  *
  * @var s_philo::id
  * Unique identifier for the philosopher.
- * @var s_philo::left_fork
- * Pointer to the mutex representing the left fork.
- * @var s_philo::right_fork
- * Pointer to the mutex representing the right fork.
+ * @var s_philo::fork1
+ * Pointer to the mutex representing the lower indexed fork.
+ * @var s_philo::fork2
+ * Pointer to the mutex representing the higher indexed fork.
  * @var s_philo::thread
  * Thread associated with this philosopher.
  * @var s_philo::state
@@ -95,8 +95,8 @@ typedef struct	s_args
 typedef struct	s_philo
 {
 	int		id;
-	pthread_mutex_t		*left_fork;
-	pthread_mutex_t		*right_fork;
+	pthread_mutex_t		*fork1;
+	pthread_mutex_t		*fork2;
 	pthread_t	thread;
 	t_state		state;
 	int		meals_eaten;
@@ -128,5 +128,10 @@ void    wait_for_start(long target_time_ms);
 
 // print.c
 void    print_display_msg(t_philo *philo, t_state action);
+
+// routine.c
+void    philo_routine(t_philo *philo);
+void    grab_forks(t_philo *philo);
+void    eat(t_philo *philo);
 
 #endif

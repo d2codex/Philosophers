@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:30:54 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/13 11:17:29 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:06:45 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	main(int ac, char **av)
 	pthread_mutex_t	*forks;
 	t_philo		*philos;
 
+	forks = NULL;
+	philos = NULL;
 	if (parse_init_args(ac, av, &args) != 0)
 		return (print_usage(), 1);
 	if (validate_args(&args) != 0)
