@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/12 19:01:13 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/13 10:03:14 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int     error_return(const char *msg);
 void    print_usage();
 
 // prototpyes for init.c
-int     init_fork(pthread_mutex_t **cs, int num_philos);
+int     init_forks(pthread_mutex_t **cs, int num_philos);
 int     init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks);
 
 // prototypes for num_utils.c
@@ -119,5 +119,6 @@ int     ft_atosize(const char *str, size_t *out);
 // prototypes for time.c
 long    get_time_ms(void);
 void    smart_sleep(long ms);
+void    wait_for_start(long target_time_ms);
 
 #endif

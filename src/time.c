@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:23:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/12 13:29:43 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/13 10:11:35 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,19 @@ void	smart_sleep(long ms)
 	start = get_time_ms();
 	
 	while(get_time_ms() - start < ms)
+		usleep(100);
+}
+
+/**
+ * @brief Synchronizes all threads to start at the same time.
+ *
+ * Busy-waits until the specified absolute start time in milliseconds,
+ * ensuring all philosopher threads begin execution simultaneously.
+ *
+ * @param target_time_ms Absolute time in milliseconds to wait for.
+ */
+void	wait_for_start(long target_time_ms)
+{
+	while (get_time_ms() < target_time_ms)
 		usleep(100);
 }

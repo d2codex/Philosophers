@@ -1,5 +1,6 @@
 #include "philo.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void	test_atosize(void)
 {
@@ -128,7 +129,7 @@ void	test_parse_init_args()
 }
 
 // integration test
-void	test_args()
+void	test_integration()
 {
 	t_args	args;
 
@@ -143,12 +144,12 @@ void	test_args()
 		// expected input format
 		// ./philo int t_size t_size t_size [int]
 		// INT_MAX
-		{5, {"./philo", "2147483647", "800", "200", "200", NULL}},
+		{5, {"./philo", "15", "800", "200", "200", NULL}},
 		// INT_MIN
-		{5, {"./philo", "-2147483648", "800", "200", "200", NULL}},
+		{5, {"./philo", "10", "800", "200", "200", NULL}},
 		// Edge cases for size_t (time values)
 		// max size_t
-		{5, {"./philo", "4", "18446744073709551615", "200", "200", NULL}},
+		{5, {"./philo", "4", "700", "200", "200", NULL}},
 		// all invalid
 		{6, {"./philo", "0", "0", "0", "0", "-2", NULL}},
 
@@ -169,9 +170,39 @@ void	test_args()
 		{
 			print_usage();
 			printf("parse_init_args failed\n");
-			return ;
+			i++;
+			continue ;
 		}
 		validate_args(tests[i].ac, &args);		
+		printf("\n");
+		pthread_mutex_t *forks = NULL;
+		t_philo *philos = NULL;
+		if (init_forks(&forks, args.philos) != 0)
+		{
+			printf("init_forks failed\n");
+			i++;
+			continue;
+		}
+		// test init_philos
+		if (init_philos(&philos, &args, forks) != 0)
+		{
+			printf("init_philo failed\n");
+			free(forks);
+			i++;
+			continue;
+		}
+		// philo info after init
+		for (int p = 0; p < args.philos; p++)
+		{
+			printf("Philo %d: id=%d, meals_eaten=%d, state=%d, last_meal_time=%lld\n",
+				p, philos[p].id, philos[p].meals_eaten, philos[p].state,
+				philos[p].t_last_meal_start);
+			// Check fork pointers validity
+			if (philos[p].left_fork == NULL || philos[p].right_fork == NULL)
+				printf("Error: philosopher %d fork pointers NULL\n", p);
+		}
+		free(philos);
+		free(forks);
 		printf("\n");
 		i++;
 	}
@@ -182,6 +213,6 @@ int	main(void)
 //	test_atosize();
 //	test_safe_atoi();
 //	test_parse_init_args();
-	test_args();
+	test_integration();
 	return(0);
 }

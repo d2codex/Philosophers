@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:34:23 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/12 19:01:04 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/12 19:48:55 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks)
 	int	count;
 	
 	count = args->philos;
-	*philos = malloc(sizeof(t_pilo) * count);
+	*philos = malloc(sizeof(t_philo) * count);
 	if (!*philos)
 		return (error_return("Failed to malloc for philos\n"));
 	i = 0;
@@ -75,9 +75,9 @@ int	init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks)
 		(*philos)[i].id = i + 1;
 		(*philos)[i].args = args;
 		(*philos)[i].left_fork = &forks[i];
-		(*philos)[i].right_rork = &forks[(i + 1) % count];
+		(*philos)[i].right_fork = &forks[(i + 1) % count];
 		(*philos)[i].meals_eaten = 0;
-		(*philos)[i].last_meal_start = get_time_ms();
+		(*philos)[i].t_last_meal_start = 0;
 		(*philos)[i].state = THINKING;
 		i++;
 	}
