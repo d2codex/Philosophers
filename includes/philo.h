@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/14 16:03:42 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/14 17:43:57 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct	s_args
 	int	meal_goal;
 	int		simulation_stopped;
 	pthread_mutex_t	print_lock;
+	t_philo	*philos;
 }	t_args;
 
 /**
@@ -138,4 +139,8 @@ void    grab_forks(t_philo *philo);
 void    eat(t_philo *philo);
 void    slumber(t_philo *philo);
 void    think(t_philo *philo);
+
+// monitor
+
+
 #endif
