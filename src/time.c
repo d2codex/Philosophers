@@ -6,10 +6,11 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:23:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/13 16:38:59 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:02:58 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "philo.h"
 #include <sys/time.h>
 #include <unistd.h>
 

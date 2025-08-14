@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/13 16:56:04 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:03:42 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include "char_utils.h"
 # include <stddef.h>
 # include <pthread.h>
+
+/* Small margin to ensure a philo has time to grab forks before dying */
+# define ACQUIRE_MARGIN 3
 
 /**
  * @enum t_state
@@ -123,7 +126,7 @@ int     ft_atosize(const char *str, size_t *out);
 
 // time.c
 long    get_time_ms(void);
-void    smart_sleep(long ms);
+void    smart_sleep(t_args *args, long ms);
 void    wait_for_start(long target_time_ms);
 
 // print.c
@@ -133,5 +136,6 @@ void    print_display_msg(t_philo *philo, t_state action);
 void    philo_routine(t_philo *philo);
 void    grab_forks(t_philo *philo);
 void    eat(t_philo *philo);
-
+void    slumber(t_philo *philo);
+void    think(t_philo *philo);
 #endif

@@ -234,12 +234,100 @@ void	test_print_display_msg()
 	pthread_mutex_unlock(&args.print_lock);
 }
 
+#include "philo.h"
+#include <pthread.h>
+#include <unistd.h>
+#include <stdio.h>
+
+void	test_philo_routine(void)
+{
+	t_args args;
+	t_philo philos[10];
+	pthread_t threads[10];
+	pthread_mutex_t forks[10];
+	long t_start;
+	int i;
+
+	// --- Setup args ---
+	args.philos = 3;
+	args.time_til_death = 300;
+	args.eat_time = 100;
+	args.sleep_time = 100;
+	args.simulation_stopped = 0;
+	if (pthread_mutex_init(&args.print_lock, NULL) != 0)
+		return;
+
+	// --- Init forks ---
+	i = 0;
+	while (i < 10)
+	{
+		if (pthread_mutex_init(&forks[i], NULL) != 0)
+			return;
+		i++;
+	}
+
+	// --- Init philosophers ---
+	i = 0;
+	while (i < 10)
+	{
+		philos[i].id = i + 1;
+		philos[i].args = &args;
+		philos[i].meals_eaten = 0;
+
+		// Reverse forks for first philosopher to prevent deadlock
+		if (i == 0)
+		{
+			philos[i].fork1 = &forks[(i + 1) % 3];
+			philos[i].fork2 = &forks[i];
+		}
+		else
+		{
+			philos[i].fork1 = &forks[i];
+			philos[i].fork2 = &forks[(i + 1) % 3];
+		}
+		i++;
+	}
+
+	// --- Synchronize start ---
+	t_start = get_time_ms() + 50;
+	i = 0;
+	while (i < 10)
+	{
+		philos[i].t_start = t_start;
+		pthread_create(&threads[i], NULL, (void *)philo_routine, &philos[i]);
+		i++;
+	}
+
+	// --- Let them run for 5 seconds ---
+	usleep(5 * 1000 * 1000);
+	args.simulation_stopped = 1;
+
+	// --- Join threads ---
+	i = 0;
+	while (i < 10)
+	{
+		pthread_join(threads[i], NULL);
+		i++;
+	}
+
+	// --- Cleanup ---
+	i = 0;
+	while (i < 10)
+	{
+		pthread_mutex_destroy(&forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&args.print_lock);
+}
+
+
 int	main(void)
 {
 //	test_atosize();
 //	test_safe_atoi();
 //	test_parse_init_args();
 //	test_integration();
-	test_print_display_msg();
+//	test_print_display_msg();
+	test_philo_routine();
 	return(0);
 }

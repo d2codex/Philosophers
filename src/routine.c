@@ -6,20 +6,24 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:29:58 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/13 16:54:22 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/14 17:01:50 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdbool.h>
 
 void	philo_routine(t_philo *philo)
 {
+	wait_for_start(philo->t_start);
+	philo->t_last_meal_start = get_time_ms();
 	while (!philo->args->simulation_stopped)
 	{
 		grab_forks(philo);
 		eat(philo);
-		//think - will need to calculate dynamic think time..
-		//	based on on who is about to die
+		slumber(philo);
+		think(philo);
+
 	}
 }
 
@@ -57,10 +61,39 @@ void	eat(t_philo *philo)
  * @brief Philosopher sleeps for the configured time.
  * @param philo Pointer to the philosopher structure.
  */
-void	sleep(t_philo *philo)
+void	slumber(t_philo *philo)
 {
 	philo->state = SLEEPING;
 	print_display_msg(philo, SLEEPING);
 	smart_sleep(philo->args, philo->args->sleep_time);
 }
 
+/**
+ * @brief Makes a philosopher think safely before eating again.
+ *
+ * Calculates remaining time before death minus a margin and sleeps that long.
+ * Skips thinking if the time is zero or negative. Updates state and prints
+ * only if actually thinking.
+ *
+ * @param philo The philosopher to think.
+ */
+void	think(t_philo *philo)
+{
+	long	now;
+	long	elapsed_since_last_meal;
+	long	time_left;
+	long	think_time;
+
+	now = get_time_ms();
+	elapsed_since_last_meal = now - philo->t_last_meal_start;
+	time_left = philo->args->time_til_death - elapsed_since_last_meal;
+	think_time = time_left - ACQUIRE_MARGIN;
+	if (think_time < 0)
+		think_time = 0;
+	else
+	{
+		philo->state = THINKING;
+		print_display_msg(philo, THINKING);
+		smart_sleep(philo->args, think_time);
+	}
+}
