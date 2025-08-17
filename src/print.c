@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:45:32 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/13 16:02:29 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/17 18:52:29 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,9 @@ void	print_display_msg(t_philo *philo, t_state action)
 	if (philo->args->simulation_stopped)
 	{
 		pthread_mutex_unlock(&philo->args->print_lock);
-		//do i need to destroy the initialzied mutex here?
-		//or handle in cleanup function..
 		return ;
 	}
-	time = get_time_ms() - philo->t_start;
+	time = get_sim_time(philo->args);
 	if (action == DIED)
 	{
 		printf("%ld %d has died\n", time, philo->id);

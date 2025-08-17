@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 17:28:10 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/17 12:13:37 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/17 19:08:13 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_philo	*check_starvation(t_args *args)
 	long	now;
 	int	i;
 
-	now = get_time_ms();
+	now = get_sim_time(args);
 	i = 0;
 	while (i < args->num_philos)
 	{

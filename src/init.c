@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:34:23 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/14 19:27:40 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/17 21:59:21 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	init_forks(pthread_mutex_t **forks, int num_philos)
  * @brief Initializes philosopher array and assigns forks.
  *
  * Allocates and sets up each philosopher with an ID, shared args,
- * pointers to their left and right forks, initial state, and timestamps.
+ * pointers to fork1 and fork2, initial state, and timestamps.
  *
  * @param philos Pointer to philosopher array to allocate and initialize.
  * @param args Shared arguments/configuration.

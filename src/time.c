@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:23:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/14 16:02:58 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/17 19:13:08 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,15 @@ long	get_time_ms(void)
 	return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
 }
 
+long	get_sim_time(t_args *args)
+{
+	return (get_time_ms() - args->philos->t_start);
+}
+
 /**
  * @brief Sleeps for @p ms milliseconds unless simulation stops.
  *
- * Checks @p args->simulation_stopped every 500µs to allow early exit,
+ * Checks @p args->simulation_stopped every 100µs to allow early exit,
  * ensuring actions can stop promptly when the simulation ends.
  *
  * @param args Simulation arguments containing the stop flag.
@@ -37,17 +42,12 @@ long	get_time_ms(void)
  */
 void	smart_sleep(t_args *args, long ms)
 {
-	long	start;
-	long	now;
+	long	wake_up;
 
-	start = get_time_ms();
-	while (!args->simulation_stopped)
-	{
-		now = get_time_ms();
-		if (now - start > ms)
-			break ;
-		usleep(500);
-	}
+	wake_up = get_sim_time(args) + ms;
+	while (!args->simulation_stopped 
+		&& get_sim_time(args) < wake_up)
+		usleep(100);
 }
 
 /**

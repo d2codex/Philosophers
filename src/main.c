@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:30:54 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/17 12:13:24 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/17 21:57:29 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,6 @@ int	main(int ac, char **av)
 	if (init_philos(&args.philos, &args, forks) != 0)
 		return (1); // destory print/fork mutex & free fork array
 	start_simulation(&args);
-	// start simulation
-	// 	- use helper function to delay start time so threads can sync up **DONE**
-	// 	- loop to create the threads (one per philo)
-	// 		-routine function / add delay function here for sync **DONE**
-	// 			-separate functions for each action **DONE**
-	// 			-actions need to be printed with timestamp **DONE**
-	// 				-set state to print action **DONE**
-	// 			-need mutex for printing to prevent data race **DONE**
-	// 		-update t_start to sync up with delay time
-	// 	- need monitor thread
-	// 		-here it routinely checks status specfically for
-	// 		-time last eaten and if meal goals reached.
-	// 		-need to also sync delay time here too
 	// end simulation
 	// 	-death detected or meal_goal reached
 	// 	-join threads

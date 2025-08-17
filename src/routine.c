@@ -6,12 +6,13 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:29:58 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/17 12:13:30 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/17 22:01:03 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdbool.h>
+#include <unistd.h>
 
 /**
  * @brief Main routine executed by each philosopher thread.
@@ -25,9 +26,9 @@
 void	philo_routine(t_philo *philo)
 {
 	wait_for_start(philo->t_start);
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 == 0) // stagger evens, so odds can eat first
 		smart_sleep(philo->args, philo->args->eat_time / 10);
-	philo->t_last_meal_start = get_time_ms();
+	//philo->t_last_meal_start = get_time_ms(); why am i resetting here? not needed
 	while (!philo->args->simulation_stopped)
 	{
 		if (philo->args->meal_goal > 0 &&
@@ -47,10 +48,20 @@ void	philo_routine(t_philo *philo)
  */
 void	grab_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philo->fork1);
-	print_display_msg(philo, GOT_FORK1);
-	pthread_mutex_lock(philo->fork2);
-	print_display_msg(philo, GOT_FORK2);
+	if (philo->id % 2 == 0) //evens grab fork1 first, odds fork2
+	{
+		pthread_mutex_lock(philo->fork1);
+		print_display_msg(philo, GOT_FORK1);
+		pthread_mutex_lock(philo->fork2);
+		print_display_msg(philo, GOT_FORK2);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->fork2);
+		print_display_msg(philo, GOT_FORK2);
+		pthread_mutex_lock(philo->fork1);
+		print_display_msg(philo, GOT_FORK1);
+	}
 }
 
 /**
@@ -62,7 +73,7 @@ void	grab_forks(t_philo *philo)
 void	eat(t_philo *philo)
 {
 	philo->state = EATING;
-	philo->t_last_meal_start = get_time_ms();
+	philo->t_last_meal_start = get_sim_time(philo->args);
 	philo->meals_eaten++;
 	print_display_msg(philo, EATING);
 	smart_sleep(philo->args, philo->args->eat_time);
@@ -97,10 +108,10 @@ void	think(t_philo *philo)
 	long	time_left;
 	long	think_time;
 
-	now = get_time_ms();
+	now = get_sim_time(philo->args);
 	elapsed_since_last_meal = now - philo->t_last_meal_start;
 	time_left = philo->args->time_til_death - elapsed_since_last_meal;
-	think_time = time_left - ACQUIRE_MARGIN;
+	think_time = time_left /*- ACQUIRE_MARGIN*/;
 	if (think_time < 0)
 		think_time = 0;
 	else
