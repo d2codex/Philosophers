@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 19:01:03 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/09 21:03:41 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/17 12:31:44 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,32 +65,26 @@ int	ft_safe_atoi(const char *str, int *out)
 }
 
 /**
- * @brief Safely converts a string to size_t.
- *
- * @details
- * Allows leading and trailing whitespaces, accepts an optional '+'.
- * Fails on overflow, invalid characters, or if the input is NULL,
- * empty, or just a '+'.
- *
- * @param str Input string to parse.
- * @param out Output pointer to store the result.
- * @return 1 on success, 0 on failure.
+ * @brief Converts a string to a long integer safely.
+ * 
+ * @param str Input string to convert.
+ * @param out Pointer to store the converted long value.
+ * @return int Returns 1 on success, 0 on invalid input or overflow.
  */
-int	ft_atosize(const char *str, size_t *out)
+int	ft_atolong(const char *str, long *out)
 {
-	size_t	result;
+	long    result = 0;
+	int     sign;
 
 	if (!str || !out)
 		return (0);
 	str = skip_spaces(str);
-	if (*str == '+')
-		str++;
+	sign = parse_sign(&str);
 	if (!ft_isdigit(*str))
 		return (0);
-	result = 0;
 	while (ft_isdigit(*str))
 	{
-		if (result > (SIZE_MAX - (*str - '0')) / 10)
+		if (result > (LONG_MAX - (*str - '0')) / 10)
 			return (0);
 		result = result * 10 + (*str - '0');
 		str++;
@@ -98,6 +92,6 @@ int	ft_atosize(const char *str, size_t *out)
 	str = skip_spaces(str);
 	if (*str != '\0')
 		return (0);
-	*out = result;
-	return (1);
+	*out = result * sign;
+	return 1;
 }

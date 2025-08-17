@@ -6,19 +6,33 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:29:58 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/14 17:01:50 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/17 12:13:30 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdbool.h>
 
+/**
+ * @brief Main routine executed by each philosopher thread.
+ *
+ * Waits for the synchronized start, staggers even philosophers,
+ * and loops through eating, sleeping, and thinking until the
+ * simulation stops or the meal goal is reached.
+ *
+ * @param philo Pointer to the philosopher's state and data.
+ */
 void	philo_routine(t_philo *philo)
 {
 	wait_for_start(philo->t_start);
+	if (philo->id % 2 == 0)
+		smart_sleep(philo->args, philo->args->eat_time / 10);
 	philo->t_last_meal_start = get_time_ms();
 	while (!philo->args->simulation_stopped)
 	{
+		if (philo->args->meal_goal > 0 &&
+			philo->meals_eaten >= philo->args->meal_goal)
+			break ;
 		grab_forks(philo);
 		eat(philo);
 		slumber(philo);
@@ -40,19 +54,18 @@ void	grab_forks(t_philo *philo)
 }
 
 /**
- * @brief Philosopher eats for the configured time and releases forks.
+ * @brief Philosopher starts eating and immediately increments meal count,
+ * then sleeps for the configured eat time (smart_sleep checks for simulation stop)
+ * and releases the forks.
  * @param philo Pointer to the philosopher structure.
  */
 void	eat(t_philo *philo)
 {
 	philo->state = EATING;
 	philo->t_last_meal_start = get_time_ms();
-	print_display_msg(philo, EATING);
-
-	smart_sleep(philo->args, philo->args->eat_time);
-
 	philo->meals_eaten++;
-
+	print_display_msg(philo, EATING);
+	smart_sleep(philo->args, philo->args->eat_time);
 	pthread_mutex_unlock(philo->fork1);
 	pthread_mutex_unlock(philo->fork2);
 }

@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:34:23 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/13 16:01:42 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:27:40 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks)
 	int	i;
 	int	count;
 	
-	count = args->philos;
+	count = args->num_philos;
 	*philos = malloc(sizeof(t_philo) * count);
 	if (!*philos)
 		return (error_return("Failed to malloc for philos\n"));

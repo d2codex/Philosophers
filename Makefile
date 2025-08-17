@@ -6,7 +6,7 @@
 #    By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/07 19:33:55 by diade-so          #+#    #+#              #
-#    Updated: 2025/08/14 15:46:45 by diade-so         ###   ########.fr        #
+#    Updated: 2025/08/15 16:39:38 by diade-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = philo
 LIB = libphilo.a
 
 CC = cc
-FLAGS = -Wall -Werror -Wextra -g3
+FLAGS = -Wall -Werror -Wextra -g3 -lpthread
 INCLUDES = -I./includes
 
 SRC_DIR = src
@@ -31,7 +31,8 @@ SRC_FILES = src/main.c \
 	    src/char_utils.c \
 	    src/time.c\
 	    print.c \
-	    routine.c 
+	    routine.c \
+	    monitor.c 
 
 SHARED = src/parse.c \
 	 src/errors.c

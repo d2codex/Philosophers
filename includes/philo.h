@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/14 17:43:57 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/15 16:58:31 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "char_utils.h"
 # include <stddef.h>
 # include <pthread.h>
+# include <stdbool.h>
+# include <stdio.h>
 
 /* Small margin to ensure a philo has time to grab forks before dying */
 # define ACQUIRE_MARGIN 3
@@ -34,11 +36,13 @@ typedef	enum	e_state
 	DIED,
 }	t_state;
 
+typedef struct s_philo t_philo;
+
 /**
  * @struct t_args
  * @brief Configuration arguments for the philosophers simulation.
  *
- * @var s_args::philos
+ * @var s_args::num_philos
  * Number of philosophers.
  * Stored as int for easy looping and validation (philos >= 1).
  *
@@ -60,15 +64,16 @@ typedef	enum	e_state
  * Initialized to -1 to indicate "no meal goal" specified by user.
  * This sentinel clearly distinguishes between no input (-1) and
  * explicit zero or positive values.
+ *
  */
 typedef struct	s_args
 {
-	int	philos;
-	size_t	time_til_death;
-	size_t	eat_time;
-	size_t	sleep_time;
+	int	num_philos;
+	long	time_til_death;
+	long	eat_time;
+	long	sleep_time;
 	int	meal_goal;
-	int		simulation_stopped;
+	bool		simulation_stopped;
 	pthread_mutex_t	print_lock;
 	t_philo	*philos;
 }	t_args;
@@ -124,6 +129,7 @@ int     init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks);
 // num_utils.c
 int     ft_safe_atoi(const char *str, int *out);
 int     ft_atosize(const char *str, size_t *out);
+int     ft_atolong(const char *str, long *out);
 
 // time.c
 long    get_time_ms(void);
@@ -141,6 +147,8 @@ void    slumber(t_philo *philo);
 void    think(t_philo *philo);
 
 // monitor
-
+t_philo *check_starvation(t_args *args);
+int     check_meal_goal(t_args *args);
+void    *monitor(void *arg);
 
 #endif

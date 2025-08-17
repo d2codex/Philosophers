@@ -6,17 +6,18 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 17:28:10 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/14 18:46:39 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/17 12:13:37 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
+#include <unistd.h>
+#include <stdbool.h>
 /**
  * @brief Checks if any philosopher has starved.
  *
  * Iterates through all philosophers and compares the time since their last meal
- * to `time_til_death`. Returns a pointer to the first philosopher that exceeded
+ * to time_til_death. Returns a pointer to the first philosopher that exceeded
  * the limit, or NULL if none have starved.
  *
  * @param args Pointer to t_args containing philosophers and timing info.
@@ -29,10 +30,10 @@ t_philo	*check_starvation(t_args *args)
 
 	now = get_time_ms();
 	i = 0;
-	while (i < args->philos)
+	while (i < args->num_philos)
 	{
-		if (now - args->philos[i].t_last_meal_start >
-			args->time_til_death)
+		if (now - args->philos[i].t_last_meal_start
+			> args->time_til_death)
 			return (&args->philos[i]);
 		i++;
 	}
@@ -52,8 +53,10 @@ int	check_meal_goal(t_args *args)
 {
 	int	i;
 
+	if (args->meal_goal <= 0)
+		return (0);
 	i = 0;
-	while (i < args->philos)
+	while (i < args->num_philos)
 	{
 		if (args->meal_goal > 0 &&
 			args->philos[i].meals_eaten < args->meal_goal)
@@ -79,17 +82,19 @@ void	*monitor(void *arg)
 	t_args *args = (t_args *)arg;
 	t_philo	*dead;
 
+	wait_for_start(args->philos[0].t_start);
 	while (!args->simulation_stopped)
 	{
 		dead = check_starvation(args);
 		if (dead)
 		{
 			print_display_msg(dead, DIED);
+			args->simulation_stopped = true;
 			return (NULL);
 		}
 		if (check_meal_goal(args))
 		{
-			args->simulation_stopped = 1;
+			args->simulation_stopped = true;
 			return (NULL);
 		}
 		usleep(100);

@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:53:14 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/13 15:05:38 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:42:56 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ int	parse_init_args(int ac, char **av, t_args *args)
 	error_found = 0;
 	if (ac < 5 || ac > 6)
 		return (error_return("Invalid number of arguments\n"), 1);
-	if (!ft_safe_atoi(av[1], &args->philos))
+	if (!ft_safe_atoi(av[1], &args->num_philos))
 		error_found |= error_return("Invalid number of philosophers\n");
-	if (!ft_atosize(av[2], &args->time_til_death))
+	if (!ft_atolong(av[2], &args->time_til_death))
 		error_found |= error_return("Invalid time til death\n");
-	if (!ft_atosize(av[3], &args->eat_time))
+	if (!ft_atolong(av[3], &args->eat_time))
 		error_found |= error_return("Invalid eat time\n");
-	if (!ft_atosize(av[4], &args->sleep_time))
+	if (!ft_atolong(av[4], &args->sleep_time))
 		error_found |= error_return("Invalid sleep time\n");
 	if (ac == 6)
 	{
@@ -81,7 +81,7 @@ int	validate_args(int ac, t_args *args)
 	int	error_found;
 
 	error_found = 0;
-	if (args->philos < 1)
+	if (args->num_philos < 1)
 		error_found |= error_return("Philosophers must be >= 1\n");
 	if (args->time_til_death == 0)
 		error_found |= error_return("Time til death must be > 0\n");
