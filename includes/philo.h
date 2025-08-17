@@ -6,7 +6,11 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/17 21:57:49 by diade-so         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/18 15:12:36 by diade-so         ###   ########.fr       */
+>>>>>>> 9f157d6 (Refactor timing and fork acquisition logic)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +129,7 @@ void    print_usage();
 // init.c
 int     init_forks(pthread_mutex_t **cs, int num_philos);
 int     init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks);
+void    handle_one_philo(t_args *args);
 
 // num_utils.c
 int     ft_safe_atoi(const char *str, int *out);

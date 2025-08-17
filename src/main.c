@@ -6,7 +6,11 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:30:54 by diade-so          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/17 21:57:29 by diade-so         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/18 15:16:32 by diade-so         ###   ########.fr       */
+>>>>>>> 9f157d6 (Refactor timing and fork acquisition logic)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +65,26 @@ int	main(int ac, char **av)
 		return (print_usage(), 1);
 	if (validate_args(ac, &args) != 0)
 		return (print_usage(), 1);
+	if (args.num_philos == 1)
+	{
+		handle_one_philo(&args);
+		return (1);
+	}
 	if (pthread_mutex_init(&args.print_lock, NULL) != 0)
 		return (1);
 	if (init_forks(&forks, args.num_philos) != 0)
-		return (1); // destroy print_mutex
+		return (1);
 	if (init_philos(&args.philos, &args, forks) != 0)
-		return (1); // destory print/fork mutex & free fork array
+		return (1);
 	start_simulation(&args);
+<<<<<<< HEAD
 	// end simulation
 	// 	-death detected or meal_goal reached
 	// 	-join threads
 	// 	-destroy mutexes
 	// 	-free all allocated memory
+=======
+>>>>>>> 9f157d6 (Refactor timing and fork acquisition logic)
 	return (0);
 }
 

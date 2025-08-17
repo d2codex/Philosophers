@@ -6,7 +6,11 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:29:58 by diade-so          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/17 22:01:03 by diade-so         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/18 14:38:04 by diade-so         ###   ########.fr       */
+>>>>>>> 9f157d6 (Refactor timing and fork acquisition logic)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +32,10 @@ void	philo_routine(t_philo *philo)
 	wait_for_start(philo->t_start);
 	if (philo->id % 2 == 0) // stagger evens, so odds can eat first
 		smart_sleep(philo->args, philo->args->eat_time / 10);
+<<<<<<< HEAD
 	//philo->t_last_meal_start = get_time_ms(); why am i resetting here? not needed
+=======
+>>>>>>> 9f157d6 (Refactor timing and fork acquisition logic)
 	while (!philo->args->simulation_stopped)
 	{
 		if (philo->args->meal_goal > 0 &&

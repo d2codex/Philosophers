@@ -6,12 +6,17 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:34:23 by diade-so          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/17 21:59:21 by diade-so         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/18 15:22:46 by diade-so         ###   ########.fr       */
+>>>>>>> 9f157d6 (Refactor timing and fork acquisition logic)
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 /**
  * @brief Initializes an array of mutexes representing forks.
@@ -84,3 +89,23 @@ int	init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks)
 	return (0);
 }
 
+/**
+ * @brief Handles the single-philosopher edge case.
+ *
+ * In a simulation with only one philosopher, the philosopher cannot eat
+ * because there is only one fork. This function prints the appropriate
+ * messages for taking the fork and dying after time_til_death milliseconds.
+ *
+ * @param args Pointer to the simulation arguments structure (t_args).
+ */
+void	handle_one_philo(t_args *args)
+{
+	long	start;
+	long	elapsed;
+
+	start = get_time_ms();
+	elapsed = get_time_ms() - start;
+	printf("%ld 1 has taken a fork\n", elapsed);
+	usleep(args->time_til_death * 1000);
+	printf("%ld 1 died\n", elapsed + args->time_til_death);
+}

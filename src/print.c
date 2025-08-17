@@ -6,7 +6,11 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:45:32 by diade-so          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/17 18:52:29 by diade-so         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/18 15:22:51 by diade-so         ###   ########.fr       */
+>>>>>>> 9f157d6 (Refactor timing and fork acquisition logic)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +44,7 @@ void	print_display_msg(t_philo *philo, t_state action)
 	time = get_sim_time(philo->args);
 	if (action == DIED)
 	{
-		printf("%ld %d has died\n", time, philo->id);
+		printf("%ld %d died\n", time, philo->id);
 		philo->args->simulation_stopped = true;
 	}
 	else if (action == THINKING)
