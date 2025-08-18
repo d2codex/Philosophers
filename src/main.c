@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:30:54 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/18 17:12:55 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/18 17:39:12 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	stop_simulation(t_args *args, pthread_mutex_t *forks)
 {
 	int	i;
 
-	args->simulation_stopped = true;
 	i = 0;
 	while (i < args->num_philos)
 	{
