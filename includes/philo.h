@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/18 15:53:59 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:49:27 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct	s_args
 	int	meal_goal;
 	bool		simulation_stopped;
 	pthread_mutex_t	print_lock;
+	pthread_t	monitor_thread;
 	t_philo	*philos;
 }	t_args;
 
@@ -121,6 +122,7 @@ int     validate_args(int ac, t_args *args);
 // error.c
 int     error_return(const char *msg);
 void    print_usage();
+void    cleanup(t_args *args, pthread_mutex_t *forks, const char *msg);
 
 // init.c
 int     init_forks(pthread_mutex_t **cs, int num_philos);
