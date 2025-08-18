@@ -6,11 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:23:40 by diade-so          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/08/17 19:13:08 by diade-so         ###   ########.fr       */
-=======
-/*   Updated: 2025/08/17 22:06:56 by diade-so         ###   ########.fr       */
->>>>>>> 9f157d6 (Refactor timing and fork acquisition logic)
+/*   Updated: 2025/08/18 15:58:32 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +24,6 @@ long	get_time_ms(void)
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
-}
-
-long	get_sim_time(t_args *args)
-{
-	return (get_time_ms() - args->philos->t_start);
 }
 
 /**

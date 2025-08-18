@@ -6,11 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:34:23 by diade-so          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/08/17 21:59:21 by diade-so         ###   ########.fr       */
-=======
-/*   Updated: 2025/08/18 15:22:46 by diade-so         ###   ########.fr       */
->>>>>>> 9f157d6 (Refactor timing and fork acquisition logic)
+/*   Updated: 2025/08/18 15:56:57 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
