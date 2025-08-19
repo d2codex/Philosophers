@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:45:32 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/18 15:54:34 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/19 11:32:26 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print_display_msg(t_philo *philo, t_state action)
 
 	pthread_mutex_lock(&philo->args->print_lock);
 
-	if (philo->args->simulation_stopped)
+	if (is_simulation_stopped(philo->args) && action != DIED)
 	{
 		pthread_mutex_unlock(&philo->args->print_lock);
 		return ;
@@ -41,7 +41,7 @@ void	print_display_msg(t_philo *philo, t_state action)
 	if (action == DIED)
 	{
 		printf("%ld %d died\n", time, philo->id);
-		philo->args->simulation_stopped = true;
+		set_simulation_stopped(philo->args, true);
 	}
 	else if (action == THINKING)
 		printf("%ld %d is thinking\n", time, philo->id);

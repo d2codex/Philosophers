@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:29:58 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/18 15:55:29 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/19 11:50:34 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	philo_routine(t_philo *philo)
 	wait_for_start(philo->t_start);
 	if (philo->id % 2 == 0)
 		smart_sleep(philo->args, philo->args->eat_time / 10);
-	while (!philo->args->simulation_stopped)
+	while (!is_simulation_stopped(philo->args))
 	{
 		if (philo->args->meal_goal > 0 &&
 			philo->meals_eaten >= philo->args->meal_goal)
@@ -72,8 +72,10 @@ void	grab_forks(t_philo *philo)
 void	eat(t_philo *philo)
 {
 	philo->state = EATING;
+	pthread_mutex_lock(&philo->meal_lock);
 	philo->t_last_meal_start = get_sim_time(philo->args);
 	philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->meal_lock);
 	print_display_msg(philo, EATING);
 	smart_sleep(philo->args, philo->args->eat_time);
 	pthread_mutex_unlock(philo->fork1);

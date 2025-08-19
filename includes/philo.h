@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/18 16:49:27 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/19 11:49:39 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct	s_args
 	int	meal_goal;
 	bool		simulation_stopped;
 	pthread_mutex_t	print_lock;
+	pthread_mutex_t stop_lock;
 	pthread_t	monitor_thread;
 	t_philo	*philos;
 }	t_args;
@@ -107,6 +108,7 @@ typedef struct	s_philo
 	int		id;
 	pthread_mutex_t		*fork1;
 	pthread_mutex_t		*fork2;
+	pthread_mutex_t		meal_lock;
 	pthread_t	thread;
 	t_state		state;
 	int		meals_eaten;
@@ -153,5 +155,7 @@ void    think(t_philo *philo);
 t_philo *check_starvation(t_args *args);
 int     check_meal_goal(t_args *args);
 void    *monitor(void *arg);
+bool    is_simulation_stopped(t_args *args);
+void    set_simulation_stopped(t_args *args, bool value);
 
 #endif

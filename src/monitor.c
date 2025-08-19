@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 17:28:10 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/17 19:08:13 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:15:58 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,14 @@ t_philo	*check_starvation(t_args *args)
 	i = 0;
 	while (i < args->num_philos)
 	{
+		pthread_mutex_lock(&args->philos[i].meal_lock);
 		if (now - args->philos[i].t_last_meal_start
 			> args->time_til_death)
+		{
+			pthread_mutex_unlock(&args->philos[i].meal_lock);
 			return (&args->philos[i]);
+		}
+		pthread_mutex_unlock(&args->philos[i].meal_lock);
 		i++;
 	}
 	return (NULL);
@@ -58,9 +63,14 @@ int	check_meal_goal(t_args *args)
 	i = 0;
 	while (i < args->num_philos)
 	{
+		pthread_mutex_lock(&args->philos[i].meal_lock);
 		if (args->meal_goal > 0 &&
 			args->philos[i].meals_eaten < args->meal_goal)
+		{
+			pthread_mutex_unlock(&args->philos[i].meal_lock);
 			return (0);
+		}
+		pthread_mutex_unlock(&args->philos[i].meal_lock);
 		i++;
 	}
 	return (1);
@@ -83,21 +93,57 @@ void	*monitor(void *arg)
 	t_philo	*dead;
 
 	wait_for_start(args->philos[0].t_start);
-	while (!args->simulation_stopped)
+	while (!is_simulation_stopped(args))
 	{
 		dead = check_starvation(args);
 		if (dead)
 		{
+
 			print_display_msg(dead, DIED);
-			args->simulation_stopped = true;
+			set_simulation_stopped(args, true);
 			return (NULL);
 		}
 		if (check_meal_goal(args))
 		{
-			args->simulation_stopped = true;
+			set_simulation_stopped(args, true);
 			return (NULL);
 		}
 		usleep(100);
 	}
 	return (NULL);
+}
+
+/**
+ * @brief Check if the simulation has been stopped.
+ *
+ * This function reads the simulation_stopped flag
+ * using the stop_lock mutex to avoid race conditions.
+ *
+ * @param args Pointer to the simulation arguments structure.
+ * @return true if the simulation is stopped, false otherwise.
+ */
+bool	is_simulation_stopped(t_args *args)
+{
+	bool	stopped;
+
+	pthread_mutex_lock(&args->stop_lock);
+	stopped = args->simulation_stopped;
+	pthread_mutex_unlock(&args->stop_lock);
+	return (stopped);
+}
+
+/**
+ * @brief Sets the simulation stopped flag.
+ *
+ * This function updates the simulation_stopped flag
+ * while holding the stop_lock mutex to prevent race conditions.
+ *
+ * @param args  Pointer to the simulation arguments structure.
+ * @param value Boolean value to set the simulation_stopped flag.
+ */
+void	set_simulation_stopped(t_args *args, bool value)
+{
+	pthread_mutex_lock(&args->stop_lock);
+	args->simulation_stopped = value;
+	pthread_mutex_unlock(&args->stop_lock);
 }
