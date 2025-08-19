@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 12:51:59 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/18 17:14:40 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:40:57 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,26 @@ void	cleanup(t_args *args, pthread_mutex_t *forks, const char *msg)
 	}
 	if (args)
 		pthread_mutex_destroy(&args->print_lock);
+}
+
+/**
+ * @brief Destroy all mutexes used in the simulation.
+ *
+ * Cleans up the stop_lock, print_lock, all fork mutexes,
+ * and each philosopher's meal_lock to prevent resource leaks.
+ *
+ * @param args Pointer to the simulation arguments structure.
+ */
+void	destroy_mutexes(t_args *args)
+{
+	int	i;
+
+	pthread_mutex_destroy(&args->stop_lock);
+	pthread_mutex_destroy(&args->print_lock);
+	i = 0;
+	while (i < args->num_philos)
+	{
+		pthread_mutex_destroy(&args->philos[i].meal_lock);
+		i++;
+	}
 }

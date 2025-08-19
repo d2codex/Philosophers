@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 14:18:40 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/19 11:49:39 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:38:56 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,12 @@ int     validate_args(int ac, t_args *args);
 int     error_return(const char *msg);
 void    print_usage();
 void    cleanup(t_args *args, pthread_mutex_t *forks, const char *msg);
+void    destroy_mutexes(t_args *args);
 
 // init.c
 int     init_forks(pthread_mutex_t **cs, int num_philos);
 int     init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks);
+void    init_mutexes(t_args *args);
 void    handle_one_philo(t_args *args);
 
 // num_utils.c

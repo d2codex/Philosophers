@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:34:23 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/19 11:57:42 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:41:24 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,29 @@ int	init_philos(t_philo **philos, t_args *args, pthread_mutex_t *forks)
 		i++;
 	}
 	return (0);
+}
+
+/**
+ * @brief Initialize all mutexes used in the simulation.
+ *
+ * Sets up the stop_lock, print_lock,
+ * and each philosopher's meal_lock before starting the simulation.
+ *
+ * @param args Pointer to the simulation arguments structure.
+ */
+void	init_mutexes(t_args *args)
+{
+	int	i;
+
+	pthread_mutex_init(&args->stop_lock, NULL);
+	pthread_mutex_init(&args->print_lock, NULL);
+
+	i = 0;
+	while (i < args->num_philos)
+	{
+		pthread_mutex_init(&args->philos[i].meal_lock, NULL);
+		i++;
+	}
 }
 
 /**

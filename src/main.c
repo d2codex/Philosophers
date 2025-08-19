@@ -6,7 +6,7 @@
 /*   By: diade-so <diade-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:30:54 by diade-so          #+#    #+#             */
-/*   Updated: 2025/08/18 17:39:12 by diade-so         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:37:26 by diade-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ int	main(int ac, char **av)
 		handle_one_philo(&args);
 		return (1);
 	}
-	if (pthread_mutex_init(&args.print_lock, NULL) != 0)
-		return (cleanup(&args, NULL, "init print mutex failed"), 1);
 	if (init_forks(&forks, args.num_philos) != 0)
 		return (cleanup(&args, NULL, "init forks failed"), 1);
+	init_mutexes(&args);
 	if (init_philos(&args.philos, &args, forks) != 0)
 		return (cleanup(&args, forks, "init philos failed"),1);
 	start_simulation(&args);
 	stop_simulation(&args, forks);
+	destroy_mutexes(&args);
 	return (0);
 }
